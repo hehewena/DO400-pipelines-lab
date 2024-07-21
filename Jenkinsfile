@@ -17,9 +17,23 @@ pipeline {
                     }
                     steps {
                         sh './mvnw test -D testGroups=integration'
-          }
-        } 
-      }    
+                    }
+                } 
+            }           
+        }
+                stage('build') {
+                    steps {
+                        script {
+                            try {
+                                sh './mvnw package -D skipTests'
+                            } catch(ex) {
+                                echo "Error while generating -D skipTests"
+                                throw ex
+                            }
+                  
+                        }          
+                    }  
+                }
+
     }
-  }
 }
